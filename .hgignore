@@ -6,3 +6,8 @@ Parallel/.settings/org.eclipse.jdt.core.prefs
 Parallel/bin/*
 Parallel/gen/*
 .metadata/*
+TestParallel/.classpath
+TestParallel/.project
+TestParallel/.settings/org.eclipse.jdt.core.prefs
+TestParallel/bin/*
+TestParallel/gen/*
