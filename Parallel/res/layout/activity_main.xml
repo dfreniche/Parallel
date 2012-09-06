@@ -20,7 +20,7 @@
         android:src="@drawable/logo_cccb" />
 
     <ImageButton
-        android:id="@+id/imageButton1"
+        android:id="@+id/imageButtonRoute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -28,34 +28,33 @@
         android:src="@drawable/plane" />
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/imageButtonCustomRoute"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:src="@drawable/search" />
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/imageButton2"
-        android:layout_marginTop="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/imageButtonRoute"
         android:padding="@dimen/padding_medium"
-        android:text="@string/custom_routes"
+        android:text="@string/suggested_routes"
         android:textSize="@dimen/padding_large"
         android:textStyle="bold"
         tools:context=".MainActivity" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView1"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_alignParentLeft="true"
+        android:layout_alignBaseline="@+id/textView2"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignParentRight="true"
         android:padding="@dimen/padding_medium"
-        android:text="@string/suggested_routes"
+        android:text="@string/custom_routes"
         android:textSize="@dimen/padding_large"
         android:textStyle="bold"
         tools:context=".MainActivity" />
