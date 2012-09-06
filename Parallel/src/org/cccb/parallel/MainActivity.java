@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -50,11 +51,25 @@ public class MainActivity extends Activity {
         
     }
 
+ // Menu Stuff
+    // Called first time user clicks on the menu button
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
+    
+   
+ // Called when an options item is clicked
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+    	switch (item.getItemId()) { 
+    		case R.id.menu_custom_route: Log.d("menu", "option 1");
+    	}
+    
+    	return true;
+    }
+
 
     
 }

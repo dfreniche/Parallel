@@ -8,5 +8,9 @@
     <string name="custom_routes">Custom Routes</string>
     <string name="title_activity_routes_list">RoutesListActivity</string>
     <string name="title_activity_custom_route">CustomRouteActivity</string>
+    <string name="menu_custom_route">Custom Route</string>
+    <string name="menu_suggested_route">Suggested Route</string>
+    <string name="menu_cccb">CCCB</string>
+    <string name="menu_about">About</string>
 
 </resources>
