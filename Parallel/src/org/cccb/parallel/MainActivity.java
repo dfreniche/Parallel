@@ -1,6 +1,7 @@
 package org.cccb.parallel;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -26,8 +27,12 @@ public class MainActivity extends Activity {
         this.buttonRoute.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
-				Log.d("", "hello");
-				
+				Log.d("", "Launch Routes");
+				Intent i = new Intent(MainActivity.this, RoutesListActivity.class);
+				i.putExtra("clave1", "Hello!");
+				i.putExtra("clave2", 10);
+				i.putExtra("clave3", "hola");
+				startActivity(i);
 			}
         	
         });
@@ -35,7 +40,7 @@ public class MainActivity extends Activity {
         this.buttonCustomRoute.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View arg0) {
-				Log.d("", "hello");
+				Log.d("", "Launch Custom Routes");
 				
 			}
         	

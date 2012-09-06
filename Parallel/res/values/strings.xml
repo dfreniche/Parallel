@@ -4,8 +4,8 @@
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
     <string name="title_activity_main">MainActivity</string>
-
     <string name="suggested_routes">Suggested Routes</string>
     <string name="custom_routes">Custom Routes</string>
-   
+    <string name="title_activity_routes_list">RoutesListActivity</string>
+
 </resources>
