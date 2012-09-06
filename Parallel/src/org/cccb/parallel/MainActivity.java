@@ -41,7 +41,9 @@ public class MainActivity extends Activity {
 
 			public void onClick(View arg0) {
 				Log.d("", "Launch Custom Routes");
+				Intent i = new Intent(MainActivity.this, CustomRouteActivity.class);
 				
+				startActivity(i);
 			}
         	
         });

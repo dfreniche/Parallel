@@ -7,5 +7,6 @@
     <string name="suggested_routes">Suggested Routes</string>
     <string name="custom_routes">Custom Routes</string>
     <string name="title_activity_routes_list">RoutesListActivity</string>
+    <string name="title_activity_custom_route">CustomRouteActivity</string>
 
 </resources>
