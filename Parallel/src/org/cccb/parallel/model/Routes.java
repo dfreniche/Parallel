@@ -8,9 +8,10 @@ import org.cccb.parallel.net.CCCBServerAPIWrapper;
 public class Routes {
 	private List<Route> allRoutes;
 	
-	public void readAllRoutes() {
+	public Routes readAllRoutes() {
 		CCCBServerAPIWrapper server = new CCCBServerAPIWrapper();
 		setAllRoutes(server.getAllRoutes());
+		return this;
 	}
 
 	public List<Route> getAllRoutes() {
