@@ -7,6 +7,7 @@ import org.cccb.parallel.model.Route;
 import org.cccb.parallel.model.Routes;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -40,6 +41,9 @@ public class RoutesListActivity extends ListActivity {
 
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				Log.d("",""+routes.get(arg2).getName());
+				Intent i = new Intent(RoutesListActivity.this, MapRouteActivity.class);
+				i.putExtra("clave1", routes.get(arg2).getId());
+				startActivity(i);
 			}
         	
 		});
