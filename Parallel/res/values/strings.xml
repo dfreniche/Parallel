@@ -12,5 +12,6 @@
     <string name="menu_suggested_route">Suggested Route</string>
     <string name="menu_cccb">CCCB</string>
     <string name="menu_about">About</string>
+    <string name="title_activity_map_route">MapRouteActivity</string>
 
 </resources>
