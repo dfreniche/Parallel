@@ -42,7 +42,7 @@ public class RoutesListActivity extends ListActivity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				Log.d("",""+routes.get(arg2).getName());
 				Intent i = new Intent(RoutesListActivity.this, MapRouteActivity.class);
-				i.putExtra("clave1", routes.get(arg2).getId());
+				i.putExtra("org.cccb.parallel.routeId", routes.get(arg2).getId());
 				startActivity(i);
 			}
         	

@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.cccb.parallel.model.POI;
 import org.cccb.parallel.model.Route;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +43,7 @@ public class CCCBServerAPIWrapper {
 			in.close();
 
 			String page = sb.toString();
-			System.out.println(page);
+			// System.out.println(page);
 
 			jsonObject = new JSONObject(page);
 
@@ -63,13 +64,40 @@ public class CCCBServerAPIWrapper {
 		return jsonObject;
 
 	}
-	
-	
+
+
+	public Route getRouteWithId(long routeId) {
+		Route r = new Route();
+		// get JSON data
+		JSONObject jObject = getJSONFromHttpRequest(urlBase + "/getroute?id="+ routeId +"&locale=ES_es");
+
+
+		// convert to Java objects
+		try {
+			r.setId(jObject.getLong("id"));
+			r.setDescription(jObject.getString("description"));
+			r.setName(jObject.getString("description"));
+
+			// POIs
+
+			r.setRoutePOIs(this.readPOIs(jObject));
+
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return r;
+	}
+
 	public List<Route> getAllRoutes(){
+		// get JSON data
 		JSONObject jObject = getJSONFromHttpRequest(urlBase + "/allroutes?locale=ES_es");
 		JSONArray routes;
 		List<Route> l = new ArrayList<Route>();
-		
+
+
+		// convert to Java objects
 		try {
 			routes = jObject.getJSONArray("allroutes");
 			for (int i = 0; i < routes.length(); i++) {
@@ -78,6 +106,11 @@ public class CCCBServerAPIWrapper {
 				r.setId(jo.getLong("id"));
 				r.setDescription(jo.getString("description"));
 				r.setName(jo.getString("description"));
+
+				// POIs
+
+				r.setRoutePOIs(this.readPOIs(jo));
+
 				l.add(r);
 			}
 		} catch (JSONException e) {
@@ -85,6 +118,32 @@ public class CCCBServerAPIWrapper {
 			e.printStackTrace();
 		}
 		return l;
-		
+
+	}
+
+	private List<POI> readPOIs(JSONObject jo) {
+		List <POI> l = new ArrayList<POI>();
+		JSONArray pois = null;
+		try {
+			pois = jo.getJSONArray("pois");
+			if (pois != null) {
+				for (int i=0; i<pois.length(); i++) {
+					JSONObject poiJson = pois.getJSONObject(i);
+					POI p = new POI();
+					p.setId(poiJson.getLong("id"));
+					p.setAdrress(poiJson.getString("address"));
+					p.setLatitude(poiJson.getDouble("latitude"));
+					p.setLongitude(poiJson.getDouble("longitude"));
+					p.setDescription(poiJson.getString("description"));
+					l.add(p);
+				}
+			}
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return l;
 	}
 }
