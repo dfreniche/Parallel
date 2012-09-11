@@ -35,7 +35,7 @@ public class TestRoute {
 			System.out.println("Route: " + r.getName() + ", " + r.getDescription());
 			
 			List <POI> pois = r.getRoutePOIs();
-			for (Iterator iterator = pois.iterator(); iterator.hasNext();) {
+			for (Iterator<POI> iterator = pois.iterator(); iterator.hasNext();) {
 				POI poi = (POI) iterator.next();
 				System.out.println(poi.getAdrress());
 				
@@ -53,7 +53,7 @@ public class TestRoute {
 		
 		System.out.println(r.getName());
 		List <POI> l = r.getRoutePOIs();
-		for (Iterator iterator = l.iterator(); iterator.hasNext();) {
+		for (Iterator<POI> iterator = l.iterator(); iterator.hasNext();) {
 			POI poi = (POI) iterator.next();
 			System.out.println(poi.getDescription());
 		}
