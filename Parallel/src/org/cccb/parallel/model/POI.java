@@ -48,6 +48,13 @@ public class POI {
 	public void setLongitude(double longitude) {
 		this.longitude = longitude;
 	}
+	public int getIntLatitude() {
+		return (int)(this.getLatitude()*1E6);
+	}
+	public int getIntLongitude() {
+		return (int)(this.getLongitude()*1E6);
+	}
+	
 	public List<String> getTags() {
 		return tags;
 	}
