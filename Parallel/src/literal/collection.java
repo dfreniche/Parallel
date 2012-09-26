@@ -1,4 +1,5 @@
 // all credit: http://gleichmann.wordpress.com/2008/01/13/building-your-own-literals-in-java-lists-and-arrays/
+// read license of use there
 
 package literal;
 

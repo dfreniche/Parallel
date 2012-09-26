@@ -15,7 +15,9 @@
         android:id="@+id/mapView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:clickable="true"
-        android:apiKey="0AYO5ot6KMxNz9pimsciFD-ocF5qlQvagfv54jw" />
+        android:layout_below="@+id/textView1"
+        android:apiKey="YOUR-API-KEY"
+        
+        android:clickable="true" />
 
 </RelativeLayout>

@@ -20,30 +20,23 @@ DEALINGS IN THE SOFTWARE.
 
 */
 
-package org.cccb.parallel.model;
+package org.cccb.parallel;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
 
-import org.cccb.parallel.net.CCCBServerAPIWrapper;
+public class POIDetailActivity extends Activity {
 
-public class Routes {
-	private List<Route> allRoutes;
-	
-	public Routes readAllRoutes() {
-		CCCBServerAPIWrapper server = new CCCBServerAPIWrapper();
-		setAllRoutes(server.getAllRoutes());
-		return this;
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_poidetail);
+    }
 
-	public List<Route> getAllRoutes() {
-		if (this.allRoutes == null) {
-			this.allRoutes = new ArrayList<Route>();
-		}
-		return allRoutes;
-	}
-
-	private void setAllRoutes(List<Route> allRoutes) {
-		this.allRoutes = allRoutes;
-	}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_poidetail, menu);
+        return true;
+    }
 }

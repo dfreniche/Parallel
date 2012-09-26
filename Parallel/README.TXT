@@ -1,3 +1,10 @@
+Este programa se utiliz— para impartir un taller de desarrollo de Apps Android organizado por el CCCB en Barcelona, Sept 2012
+
+El taller est‡ descrito en:
+http://www.cccb.org/lab/es/ici/apps-per-a-una-nova-cultura/
+
+La licencia de uso:
+
 /*
 
 MIT - Licence
@@ -19,31 +26,3 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFT
 DEALINGS IN THE SOFTWARE.
 
 */
-
-package org.cccb.parallel.model;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.cccb.parallel.net.CCCBServerAPIWrapper;
-
-public class Routes {
-	private List<Route> allRoutes;
-	
-	public Routes readAllRoutes() {
-		CCCBServerAPIWrapper server = new CCCBServerAPIWrapper();
-		setAllRoutes(server.getAllRoutes());
-		return this;
-	}
-
-	public List<Route> getAllRoutes() {
-		if (this.allRoutes == null) {
-			this.allRoutes = new ArrayList<Route>();
-		}
-		return allRoutes;
-	}
-
-	private void setAllRoutes(List<Route> allRoutes) {
-		this.allRoutes = allRoutes;
-	}
-}

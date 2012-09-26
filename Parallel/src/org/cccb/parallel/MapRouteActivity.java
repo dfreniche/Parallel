@@ -1,3 +1,25 @@
+/*
+
+MIT - Licence
+
+Copyright (c) 2012 Diego Freniche
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and 
+to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of
+ the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED 
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL 
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+DEALINGS IN THE SOFTWARE.
+
+*/
+
 package org.cccb.parallel;
 
 import java.util.ArrayList;
@@ -9,6 +31,7 @@ import org.cccb.parallel.model.Route;
 import org.cccb.parallel.model.constants.Parallel;
 import org.cccb.parallel.net.CCCBServerAPIWrapper;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -19,6 +42,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
@@ -39,7 +63,9 @@ public class MapRouteActivity extends MapActivity {
 	private GeoPoint geo;
 
 	private MyLocationOverlay me = null;
-
+	
+	private Route r;
+	private int selectedPOIIndex;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +80,11 @@ public class MapRouteActivity extends MapActivity {
 
 		long routeId = getIntent().getLongExtra("org.cccb.parallel.routeId", 0);
 
-		Route r = (new CCCBServerAPIWrapper()).getRouteWithId(routeId);
+		if (routeId == 0) {
+			Toast.makeText(this, "No Route in list", Toast.LENGTH_LONG).show();
+
+		}
+		r = (new CCCBServerAPIWrapper()).getRouteWithId(routeId);
 
 		Drawable marker = getResources().getDrawable(R.drawable.information);
 		int markerWidth = marker.getIntrinsicWidth();
@@ -145,6 +175,13 @@ public class MapRouteActivity extends MapActivity {
 				//When we touch the bubble it is removed. And make null viewBubble to reuse it.
 				public void onClick(View v) {
 					System.out.println("click");
+					r.getRoutePOIs().get(selectedPOIIndex).getId();
+					Intent i = new Intent();
+					i.setClass(getApplicationContext(), POIDetailActivity.class);
+					
+					i.putExtra("clave3", "hola");
+					startActivity(i);
+					
 					mapView.removeView(viewBubble);
 					viewBubble = null;
 
@@ -189,6 +226,7 @@ public class MapRouteActivity extends MapActivity {
 
 			item = getItem(index);
 			geo = item.getPoint();
+			selectedPOIIndex = index;
 			addBubble(geo);  //We call the functtion addbubble passing the position of the item tapped
 			return true;
 		}
