@@ -40,7 +40,7 @@ import org.json.JSONObject;
 
 public class CCCBServerAPIWrapper {
 
-	private static final String urlBase = "http://192.168.8.30:4567";
+	private static final String urlBase = "http://10.0.1.11:4567";
 
 
 	private JSONObject getJSONFromHttpRequest(String httpRequest) {

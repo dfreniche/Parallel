@@ -1,9 +1,20 @@
+Para probarlo:
+- cambiar la direcci—n IP de CCCBServerAPIWrapper, por la IP del equipo que ejecute el servidor Sinatra
+- iniciar sinatra (navegar a la carpeta endpoint-mockup con un terminal) y lanzar ./start-sinatra.sh
+- si usamos Windows, tendremos que instalar Ruby 1.9 y desde la carpeta anterior ejecutar: ruby -rubygems cccb-server.rb 
+
+
+
+This code was used in an Android WorkShop. Details: http://www.cccb.org/lab/es/ici/apps-per-a-una-nova-cultura/
+
+----
+
 Este programa se utiliz— para impartir un taller de desarrollo de Apps Android organizado por el CCCB en Barcelona, Sept 2012
 
 El taller est‡ descrito en:
 http://www.cccb.org/lab/es/ici/apps-per-a-una-nova-cultura/
 
-La licencia de uso:
+License / Licencia de uso:
 
 /*
 
