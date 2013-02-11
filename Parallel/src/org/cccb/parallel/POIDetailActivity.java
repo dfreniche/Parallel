@@ -18,25 +18,63 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABI
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 DEALINGS IN THE SOFTWARE.
 
-*/
+ */
 
 package org.cccb.parallel;
 
-import android.os.Bundle;
+import org.cccb.parallel.model.POI;
+import org.cccb.parallel.net.CCCBServerAPIWrapper;
+
 import android.app.Activity;
-import android.view.Menu;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.widget.TextView;
 
 public class POIDetailActivity extends Activity {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_poidetail);
-    }
+	private TextView txtName;
+	private TextView txtDescription;
+	private TextView txtAddress;
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_poidetail, menu);
-        return true;
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_poidetail);
+
+		txtName = (TextView)findViewById(R.id.txtPoiName);
+		txtDescription = (TextView)findViewById(R.id.txtPoiDescription);
+		txtAddress = (TextView)findViewById(R.id.txtPoiAddress);
+
+		Intent i = getIntent();
+		Integer id = i.getIntExtra("poiid", 0);
+		Integer[] params = { id };
+
+		ReadPoiTask rpt = new ReadPoiTask();
+		rpt.execute(params);
+
+	}
+
+	private class ReadPoiTask extends AsyncTask<Integer, Void, POI> {
+
+		@Override
+		protected POI doInBackground(Integer... params) {
+			POI p = (new CCCBServerAPIWrapper()).getPoiWithId(params[0]);
+			return p;
+		}
+
+		@Override
+		protected void onPostExecute(POI p) {
+
+			txtName.setText(p.getName());
+			txtDescription.setText(p.getDescription());
+			txtAddress.setText(p.getAddress());
+
+			super.onPostExecute(p);
+		}
+
+
+
+	}
+
 }

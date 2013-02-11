@@ -58,7 +58,7 @@ public class TestRoute {
 			List <POI> pois = r.getRoutePOIs();
 			for (Iterator<POI> iterator = pois.iterator(); iterator.hasNext();) {
 				POI poi = (POI) iterator.next();
-				System.out.println(poi.getAdrress());
+				System.out.println(poi.getAddress());
 				
 			}
 			System.out.println();

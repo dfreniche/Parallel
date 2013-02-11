@@ -40,6 +40,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +53,7 @@ import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 
 public class MapRouteActivity extends MapActivity {
-
+	private TextView titleMap;
 
 	private MapView mapView;
 	ParallelMapPin mp;
@@ -72,6 +73,8 @@ public class MapRouteActivity extends MapActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_map_route);
 
+		//this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
 		mapView = (MapView)findViewById(R.id.mapView);
 		mapView.setBuiltInZoomControls(true);
 
@@ -86,6 +89,10 @@ public class MapRouteActivity extends MapActivity {
 		}
 		r = (new CCCBServerAPIWrapper()).getRouteWithId(routeId);
 
+		titleMap = (TextView)findViewById(R.id.titleMap);
+		titleMap.setText(r.getName() + " Time needed: " + r.getTimeNeeded());
+		
+		
 		Drawable marker = getResources().getDrawable(R.drawable.information);
 		int markerWidth = marker.getIntrinsicWidth();
 		int markerHeight = marker.getIntrinsicHeight();
@@ -175,11 +182,11 @@ public class MapRouteActivity extends MapActivity {
 				//When we touch the bubble it is removed. And make null viewBubble to reuse it.
 				public void onClick(View v) {
 					System.out.println("click");
-					r.getRoutePOIs().get(selectedPOIIndex).getId();
+					
 					Intent i = new Intent();
 					i.setClass(getApplicationContext(), POIDetailActivity.class);
 					
-					i.putExtra("clave3", "hola");
+					i.putExtra("poiid", ""+ r.getRoutePOIs().get(selectedPOIIndex).getId());
 					startActivity(i);
 					
 					mapView.removeView(viewBubble);
@@ -196,16 +203,12 @@ public class MapRouteActivity extends MapActivity {
 
 		private ArrayList<OverlayItem> locations = new ArrayList<OverlayItem>();
 
-
-
 		public ParallelMapPin(Drawable defaultMarker) {
 			super(boundCenterBottom(defaultMarker));
 			populate();
 		}
 
 		public void addPois(Drawable defaultMarker, List<POI> pois) {
-
-
 			for (Iterator<POI> iterator = pois.iterator(); iterator.hasNext();) {
 				POI poi = (POI) iterator.next();
 				locations.add(new OverlayItem(new GeoPoint(poi.getIntLatitude(), poi.getIntLongitude()), poi.getName(), poi.getDescription()));
@@ -214,9 +217,12 @@ public class MapRouteActivity extends MapActivity {
 			}
 		}
 
+		/* Tapping outside any bubble, in the map: centers the map */
 		@Override
 		public boolean onTap(GeoPoint p, MapView mapView) {
 			dimissbubble();
+			mapView.getController().setCenter(p);
+
 			return super.onTap(p, mapView);
 		}
 

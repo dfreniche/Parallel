@@ -38,7 +38,7 @@ public class TestPOI {
 		POI p = new POI();
 		
 		p.setId(10);
-		p.setAdrress("Address of test");
+		p.setAddress("Address of test");
 		p.setLatitude(0.8888f);
 		p.setLongitude(1.98);
 		

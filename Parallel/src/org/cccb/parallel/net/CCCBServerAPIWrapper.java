@@ -40,7 +40,7 @@ import org.json.JSONObject;
 
 public class CCCBServerAPIWrapper {
 
-	private static final String urlBase = "http://10.0.1.11:4567";
+	private static final String urlBase = "http://192.168.1.250:4567";
 
 
 	private JSONObject getJSONFromHttpRequest(String httpRequest) {
@@ -98,10 +98,9 @@ public class CCCBServerAPIWrapper {
 		try {
 			r.setId(jObject.getLong("id"));
 			r.setDescription(jObject.getString("description"));
-			r.setName(jObject.getString("description"));
-
+			r.setName(jObject.getString("name"));
+			r.setTimeNeeded(jObject.getLong("timeNeeded"));
 			// POIs
-
 			r.setRoutePOIs(this.readPOIs(jObject));
 
 
@@ -112,6 +111,29 @@ public class CCCBServerAPIWrapper {
 		return r;
 	}
 
+	
+	public POI getPoiWithId(long poiId) {
+		POI p = new POI();
+		// get JSON data
+		JSONObject jObject = getJSONFromHttpRequest(urlBase + "/poidetail?id="+ poiId +"&locale=ES_es");
+
+		// convert to Java objects
+		try {
+			p.setId(jObject.getLong("id"));
+			p.setDescription(jObject.getString("description"));
+			p.setName(jObject.getString("name"));
+			p.setAddress(jObject.getString("address"));
+
+			p.setLatitude(jObject.getLong("latitude"));
+			p.setLongitude(jObject.getLong("longitude"));
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return p;
+	}
+	
 	public List<Route> getAllRoutes(){
 		// get JSON data
 		JSONObject jObject = getJSONFromHttpRequest(urlBase + "/allroutes?locale=ES_es");
@@ -127,7 +149,7 @@ public class CCCBServerAPIWrapper {
 				Route r = new Route();
 				r.setId(jo.getLong("id"));
 				r.setDescription(jo.getString("description"));
-				r.setName(jo.getString("description"));
+				r.setName(jo.getString("name"));
 
 				// POIs
 
@@ -153,7 +175,7 @@ public class CCCBServerAPIWrapper {
 					JSONObject poiJson = pois.getJSONObject(i);
 					POI p = new POI();
 					p.setId(poiJson.getLong("id"));
-					p.setAdrress(poiJson.getString("address"));
+					p.setAddress(poiJson.getString("address"));
 					p.setLatitude(poiJson.getDouble("latitude"));
 					p.setLongitude(poiJson.getDouble("longitude"));
 					p.setDescription(poiJson.getString("description"));

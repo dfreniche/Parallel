@@ -18,7 +18,7 @@ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABI
 CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 DEALINGS IN THE SOFTWARE.
 
-*/
+ */
 
 package org.cccb.parallel;
 
@@ -50,68 +50,63 @@ import android.widget.Toast;
 public class RoutesListActivity extends ListActivity {
 
 	ListView list;
-	
-	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_routes_list);
-        
-        Toast.makeText(this.getApplicationContext(), "Reading from the Internet", Toast.LENGTH_LONG).show();
-        
-        AccessCCCBData task = new AccessCCCBData();
-        task.execute( );
-        
 
-       
-        
-        
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_routes_list, menu);
-        return true;
-    }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_routes_list);
 
-    
-    private class AccessCCCBData extends AsyncTask<Void, Void, String> {
-    		List <Route> routes;
+		Toast.makeText(this.getApplicationContext(), "Reading from the Internet", Toast.LENGTH_LONG).show();
+
+		AccessCCCBData task = new AccessCCCBData();
+		task.execute( );
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_routes_list, menu);
+		return true;
+	}
+
+
+	private class AccessCCCBData extends AsyncTask<Void, Void, String> {
+		List <Route> routes;
 		@Override
-        protected String doInBackground(Void... thisSpaceIntencionallyLeftBlank) {
-        	  routes = (new Routes()).readAllRoutes().getAllRoutes();
-        	 
-          return "";
-        }
+		protected String doInBackground(Void... thisSpaceIntencionallyLeftBlank) {
+			routes = (new Routes()).readAllRoutes().getAllRoutes();
+
+			return "";
+		}
 
 		@Override
-        protected void onPostExecute(String result) {
-	        List <String> names = new ArrayList<String>();
+		protected void onPostExecute(String result) {
+			List <String> names = new ArrayList<String>();
 
-			 for (Route r : routes) {
-					names.add(r.getName());
-					System.out.println(r.getName());
-				}
-		        
-		        ArrayAdapter<String> adapter = new ArrayAdapter<String>(RoutesListActivity.this, android.R.layout.simple_list_item_1, names );
-		        
-		        RoutesListActivity.this.setListAdapter(adapter);
-		        
-		        list = (ListView)findViewById(android.R.id.list);
-		        list.setOnItemClickListener(new OnItemClickListener() {
+			for (Route r : routes) {
+				names.add(r.getName());
+				System.out.println(r.getName());
+			}
 
-					public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-						Log.d("",""+routes.get(arg2).getName());
-						Intent i = new Intent(RoutesListActivity.this, MapRouteActivity.class);
-						i.putExtra("org.cccb.parallel.routeId", routes.get(arg2).getId());
-						startActivity(i);
-					}
-		        	
-				});
-		        
-        }
-      }
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(RoutesListActivity.this, R.id.txt, names );
 
+			RoutesListActivity.this.setListAdapter(adapter);
  
-    
+			list = (ListView)findViewById(android.R.id.list);
+			list.setOnItemClickListener(new OnItemClickListener() {
+
+				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+					Log.d("",""+routes.get(arg2).getName());
+					Intent i = new Intent(RoutesListActivity.this, MapRouteActivity.class);
+					i.putExtra("org.cccb.parallel.routeId", routes.get(arg2).getId());
+					startActivity(i);
+				}
+
+			});
+
+		}
+	}
+
+
+
 }

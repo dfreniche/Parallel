@@ -26,7 +26,7 @@ import java.util.List;
 public class POI {
 	private long id;
 	private String name;
-	private String adrress;
+	private String address;
 	private String description;
 	private double latitude;
 	private double longitude;
@@ -45,11 +45,11 @@ public class POI {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getAdrress() {
-		return adrress;
+	public String getAddress() {
+		return address;
 	}
-	public void setAdrress(String adrress) {
-		this.adrress = adrress;
+	public void setAddress(String adrress) {
+		this.address = adrress;
 	}
 	public String getDescription() {
 		return description;
