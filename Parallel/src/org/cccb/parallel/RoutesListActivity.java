@@ -74,13 +74,24 @@ public class RoutesListActivity extends ListActivity {
 		List <Route> routes;
 		@Override
 		protected String doInBackground(Void... thisSpaceIntencionallyLeftBlank) {
-			routes = (new Routes()).readAllRoutes().getAllRoutes();
-
+			try {
+				Routes r = (new Routes()).readAllRoutes();
+				routes = r.getAllRoutes();
+			} catch (Exception e) {
+				Log.e("ERROR", "Error in AsyncTask");
+			}
+			if (routes != null && routes.size() == 0) {
+				return "ERROR";
+			}
 			return "";
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
+			if ("ERROR".equalsIgnoreCase(result)) {
+				Toast.makeText(RoutesListActivity.this, "Error connecting", Toast.LENGTH_LONG).show();
+				finish();
+			}
 			List <String> names = new ArrayList<String>();
 
 			for (Route r : routes) {
@@ -88,7 +99,7 @@ public class RoutesListActivity extends ListActivity {
 				System.out.println(r.getName());
 			}
 
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(RoutesListActivity.this, R.id.txt, names );
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(RoutesListActivity.this, android.R.layout.simple_list_item_1, names );
 
 			RoutesListActivity.this.setListAdapter(adapter);
  

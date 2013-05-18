@@ -38,61 +38,19 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class CCCBServerAPIWrapper {
 
-	private static final String urlBase = "http://192.168.1.250:4567";
-
-
-	private JSONObject getJSONFromHttpRequest(String httpRequest) {
-		BufferedReader in = null;
-		JSONObject jsonObject = null;
-		try {
-			HttpClient client = new DefaultHttpClient();
-			HttpGet request = new HttpGet(httpRequest);
-			HttpResponse response = client.execute(request);
-
-
-			in = new BufferedReader(
-					new InputStreamReader(
-							response.getEntity().getContent(), "UTF-8"));
-
-			StringBuffer sb = new StringBuffer("");
-			String line = "";
-			String NL = System.getProperty("line.separator");
-			while ((line = in.readLine()) != null) {
-				sb.append(line + NL);
-			}
-			in.close();
-
-			String page = sb.toString();
-			// System.out.println(page);
-
-			jsonObject = new JSONObject(page);
-
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			if (in != null) {
-				try {
-					in.close();
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return jsonObject;
-
-	}
-
+	private static final String urlBase = "http://10.0.1.11:4567";
 
 	public Route getRouteWithId(long routeId) {
 		Route r = new Route();
 		// get JSON data
-		JSONObject jObject = getJSONFromHttpRequest(urlBase + "/getroute?id="+ routeId +"&locale=ES_es");
-
+		JSONObject jObject = JSONUtil.getJSONFromHttpRequest(urlBase + "/getroute?id="+ routeId +"&locale=ES_es");
+		if (jObject == null) {
+			return null;
+		}
 
 		// convert to Java objects
 		try {
@@ -115,8 +73,10 @@ public class CCCBServerAPIWrapper {
 	public POI getPoiWithId(long poiId) {
 		POI p = new POI();
 		// get JSON data
-		JSONObject jObject = getJSONFromHttpRequest(urlBase + "/poidetail?id="+ poiId +"&locale=ES_es");
-
+		JSONObject jObject = JSONUtil.getJSONFromHttpRequest(urlBase + "/poidetail?id="+ poiId +"&locale=ES_es");
+		if (jObject == null) {
+			return null;
+		}
 		// convert to Java objects
 		try {
 			p.setId(jObject.getLong("id"));
@@ -136,10 +96,12 @@ public class CCCBServerAPIWrapper {
 	
 	public List<Route> getAllRoutes(){
 		// get JSON data
-		JSONObject jObject = getJSONFromHttpRequest(urlBase + "/allroutes?locale=ES_es");
+		JSONObject jObject = JSONUtil.getJSONFromHttpRequest(urlBase + "/allroutes?locale=ES_es");
 		JSONArray routes;
 		List<Route> l = new ArrayList<Route>();
-
+		if (jObject == null) {
+			return null;
+		}
 
 		// convert to Java objects
 		try {
@@ -158,7 +120,7 @@ public class CCCBServerAPIWrapper {
 				l.add(r);
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
+			Log.e("CCCB", "Error parsing JSON");
 			e.printStackTrace();
 		}
 		return l;

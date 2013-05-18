@@ -34,13 +34,15 @@ import org.cccb.parallel.net.CCCBServerAPIWrapper;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.StrictMode;
+import android.os.StrictMode.ThreadPolicy;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -87,34 +89,55 @@ public class MapRouteActivity extends MapActivity {
 			Toast.makeText(this, "No Route in list", Toast.LENGTH_LONG).show();
 
 		}
-		r = (new CCCBServerAPIWrapper()).getRouteWithId(routeId);
-
-		titleMap = (TextView)findViewById(R.id.titleMap);
-		titleMap.setText(r.getName() + " Time needed: " + r.getTimeNeeded());
 		
+		// accessing network on main thread disabled with a exception since API 10
+		// disabling waring: http://stackoverflow.com/questions/12650921/quick-fix-for-networkonmainthreadexception
+		ThreadPolicy tp = ThreadPolicy.LAX;
+		StrictMode.setThreadPolicy(tp);
+
+		LoadMapTask loadMap = new LoadMapTask(); 
+		loadMap.execute(routeId);
 		
-		Drawable marker = getResources().getDrawable(R.drawable.information);
-		int markerWidth = marker.getIntrinsicWidth();
-		int markerHeight = marker.getIntrinsicHeight();
-		marker.setBounds(0, markerHeight, markerWidth, 0);
-
-
-		mp = new ParallelMapPin(marker);
-		mp.addPois(marker, r.getRoutePOIs());
-		mapView.getOverlays().add(mp);
-
-
-
-
-		mapView.getController().setCenter(new GeoPoint((int)(Parallel.latitude*1E6), (int)(Parallel.longitude*1E6) ));
-		mapView.getController().setZoom(15);
-
-
-		me = new MyLocationOverlay(this, mapView);
-		mapView.getOverlays().add(me);
-
 	}
 
+	class LoadMapTask extends AsyncTask<Long, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Long... params) {
+			r = (new CCCBServerAPIWrapper()).getRouteWithId(params[0]);
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			if (r == null) {
+				Toast.makeText(MapRouteActivity.this, "Error loading route", Toast.LENGTH_LONG).show();
+				return;
+			}
+			titleMap = (TextView)findViewById(R.id.titleMap);
+			titleMap.setText(r.getName() + " Time needed: " + r.getTimeNeeded());
+			
+			
+			Drawable marker = getResources().getDrawable(R.drawable.information);
+			int markerWidth = marker.getIntrinsicWidth();
+			int markerHeight = marker.getIntrinsicHeight();
+			marker.setBounds(0, markerHeight, markerWidth, 0);
+
+
+			mp = new ParallelMapPin(marker);
+			mp.addPois(marker, r.getRoutePOIs());
+			mapView.getOverlays().add(mp);
+
+			mapView.getController().setCenter(new GeoPoint((int)(Parallel.latitude*1E6), (int)(Parallel.longitude*1E6) ));
+			mapView.getController().setZoom(15);
+
+
+			me = new MyLocationOverlay(MapRouteActivity.this, mapView);
+			mapView.getOverlays().add(me);
+			super.onPostExecute(result);
+		}
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_map_route, menu);
